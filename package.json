@@ -1,0 +1,23 @@
+{
+  "name": "kacjux_kitchen_client",
+  "version": "1.0.0",
+  "description": "This is the UI that is used in the kitchen. It provides a view on each incoming order.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/Jackuccino/kacjux-kitchen-client.git"
+  },
+  "author": "JinJie Xu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/Jackuccino/kacjux-kitchen-client/issues"
+  },
+  "homepage": "https://gitlab.com/Jackuccino/kacjux-kitchen-client#readme",
+  "dependencies": {
+    "electron": "^4.0.5"
+  }
+}
