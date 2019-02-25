@@ -7,7 +7,13 @@ let mainWindow;
 // Listen for app to be ready
 app.on("ready", () => {
   // Create new window
-  mainWindow = new BrowserWindow({});
+  mainWindow = new BrowserWindow({
+    width: 1920,
+    height: 1080,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
   // Load html into window
   mainWindow.loadURL(
     url.format({
@@ -38,3 +44,27 @@ const mainMenuTemplate = [
     ]
   }
 ];
+
+// If mac, add empty object to menu
+if (process.platform === "darwin") {
+  mainMenuTemplate.unshift({});
+}
+
+// Add developer tools item if not in production mode
+if (process.env.NODE_ENV !== "production") {
+  mainMenuTemplate.push({
+    label: "Developer Tools",
+    submenu: [
+      {
+        label: "Toggle DevTools",
+        accelerator: process.platform === "darwin" ? "Command+I" : "Ctrl+I",
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools();
+        }
+      },
+      {
+        role: "reload"
+      }
+    ]
+  });
+}
