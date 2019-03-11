@@ -4,19 +4,16 @@ const $ = require("jquery");
 const colsInRow = 3;
 let preRes = null;
 
-// _closeOrder = id => {
-//   $.ajax({
-//     method: "PATCH",
-//     url: apiCloseOrder + id
-//   })
-//     .then(res => {
-//       if (res.result) fetchData();
-//       else console.log("Close order failed.");
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// };
+_closeOrder = id => {
+  Server.finishOrder(id)
+    .then(res => {
+      if (res.result) fetchData();
+      else console.log("Finish order failed.");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 fetchData = () => {
   Server.getOrders()
@@ -39,7 +36,7 @@ fetchData = () => {
         // get the orders that have the same orderNo together
         res.orders.forEach(item => {
           // skip the orders that are closed
-          if (item.order.Closed !== true) {
+          if (item.order.Closed !== true && item.order.Finished !== true) {
             if (orderNo !== item.order.OrderNo && orderNo !== -1) {
               // insert order and create new order
               order = {
@@ -134,20 +131,20 @@ fetchData = () => {
           // note content
           const $note = $('<p class="ml-4"></p>').html(order.note);
           // close form
-          // const $closeContainer = $(
-          //   '<div class="d-flex flex-row-reverse"></div>'
-          // );
-          // const $closeBtn = $(
-          //   '<button class="btn btn-light">Close</button>'
-          // ).on("click", _closeOrder.bind(this, order.orderNo));
-          // $closeContainer.append($closeBtn);
+          const $closeContainer = $(
+            '<div class="d-flex flex-row-reverse"></div>'
+          );
+          const $closeBtn = $(
+            '<button class="btn btn-light">Close</button>'
+          ).on("click", _closeOrder.bind(this, order.orderNo));
+          $closeContainer.append($closeBtn);
           // add everything together into the order view container
           $orderContainer.append([
             $headerContainer,
             $orderItems,
             $noteHeader,
-            $note
-            //$closeContainer
+            $note,
+            $closeContainer
           ]);
           // add order view to column
           $col.append($orderContainer);
